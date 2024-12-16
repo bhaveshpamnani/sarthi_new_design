@@ -9,7 +9,6 @@ import 'package:shop/constants.dart';
 import 'package:shop/screens/product/views/product_returns_screen.dart';
 
 import 'package:shop/route/screen_export.dart';
-import 'package:shop/screens/wishlist/views/wishList_screen.dart';
 
 import '../../../Implemention/product_service.dart';
 import 'components/notify_me_card.dart';
@@ -48,7 +47,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     // Extract the product ID from arguments
     // final arguments = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     productId = widget.productId;
-    print(' PRODUCT ID$productId');
     // Fetch product details based on the ID (if needed)
     _fetchProductDetails(productId);
     _getWishListStatus();
@@ -80,7 +78,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     if (result["success"]) {
       setState(() {
         isInBookmark = result["isInWishlist"];
-        print("Initial isInWishlist status: $isInBookmark"); // Debug print
       });
     } else {
       print("Error fetching wishlist status: ${result["message"]}");
@@ -93,7 +90,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     if (result["success"]) {
       setState(() {
         isInBookmark = result["isInWishlist"];
-        print("Toggled isInBookmark status: $isInBookmark"); // Debug print
       });
     } else {
       print("Error toggling Bookmark: ${result["message"]}");

@@ -51,7 +51,6 @@ class ProductService {
     final response = await http.get(Uri.parse('$baseUrl/products/popular'));
 
     if (response.statusCode == 200) {
-      print(response.body);
       return json.decode(response.body)['data']; // Assuming API returns a "data" key for products
     } else {
       throw Exception('Failed to load popular products');
