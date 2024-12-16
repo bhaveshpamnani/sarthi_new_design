@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop/components/list_tile/divider_list_tile.dart';
 import 'package:shop/components/network_image_with_loader.dart';
 import 'package:shop/constants.dart';
@@ -8,17 +9,53 @@ import 'package:shop/route/screen_export.dart';
 import 'components/profile_card.dart';
 import 'components/profile_menu_item_list_tile.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  String? userName = "";
+  String? userEmail = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> logout(BuildContext context) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token'); // Remove token
+    await prefs.remove('userName'); // Remove token
+    await prefs.remove('userEmail'); // Remove token
+    await prefs.setBool('isLoggedIn', false);
+    await prefs.setBool('onboardingComplete', false);
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+    );
+  }
+  // Helper method to load user data asynchronously
+  Future<void> _loadUserData() async {
+    var prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userName = prefs.getString("userName") ?? "Unknown";
+      userEmail = prefs.getString("userEmail") ?? "unknown@gmail.com";
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
         children: [
           ProfileCard(
-            name: "Sepide",
-            email: "theflutterway@gmail.com",
+            name: userName??"Unknown",
+            email: userEmail??"unknown@gmail.com",
             imageSrc: "assets/Illustration/profile_pic.png",
             // proLableText: "Sliver",
             // isPro: true, if the user is pro
@@ -156,7 +193,9 @@ class ProfileScreen extends StatelessWidget {
 
           // Log Out
           ListTile(
-            onTap: () {},
+            onTap: () async {
+              await logout(context);  // Wrap async call inside a function
+            },
             minLeadingWidth: 24,
             leading: SvgPicture.asset(
               "assets/icons/Logout.svg",

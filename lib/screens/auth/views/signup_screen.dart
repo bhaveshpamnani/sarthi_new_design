@@ -160,11 +160,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       const SizedBox(height: defaultPadding),
                       TextFormField(
-                        onSaved: (pass) {
-                          // Password
-                        },
                         controller: _passwordController,
-                        validator: passwordValidator.call,
                         obscureText: true,
                         decoration: InputDecoration(
                           hintText: "Password",

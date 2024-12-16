@@ -66,9 +66,9 @@ class _WishListScreenState extends State<WishListScreen> {
           : CustomScrollView(
         slivers: [
           SliverPadding(
-            padding: const EdgeInsets.all(16.0),
+            padding:  EdgeInsets.all(16.0),
             sliver: SliverGrid(
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              gridDelegate:  SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 200,
                 mainAxisSpacing: 16,
                 crossAxisSpacing: 16,
@@ -83,17 +83,15 @@ class _WishListScreenState extends State<WishListScreen> {
                   }
 
                   final wishList = _wishlistItems[index];
-
                   // Extract fields safely
-                  final imageUrl = (wishList['images'] != null &&
-                      wishList['images'].isNotEmpty &&
-                      wishList['images'][0]['url'] is String)
-                      ? wishList['images'][0]['url']
+                  final imageUrl = (wishList['image'] != null &&
+                      wishList['image'].isNotEmpty &&
+                      wishList['image'][0]['url'] is String)
+                      ? wishList['image'][0]['url']
                       : 'https://via.placeholder.com/150'; // Default image
-
                   return ProductCard(
                     image: imageUrl,
-                    brandName: wishList['brand'] ?? 'Unknown',
+                    brandName: _wishlistItems[index]['brand'] ?? 'Unknown',
                     title: wishList['name'] ?? 'No Name',
                     price: (wishList['mrpPrice'] ?? 0).toDouble(),
                     priceAfetDiscount:

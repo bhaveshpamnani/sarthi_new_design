@@ -21,9 +21,6 @@ class AuthService {
           'phone': phone,
         }),
       );
-      print("Sign Up Called");
-      print(response.statusCode);
-      print(response.body);
       if (response.statusCode == 201) {
         final data = jsonDecode(response.body);
         final prefs = await SharedPreferences.getInstance();
@@ -52,14 +49,20 @@ class AuthService {
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'email': email, 'password': password}),
       );
-
       if (response.statusCode == 201) {
         final data = jsonDecode(response.body);
         final String token = data['token'];
         // Save token in SharedPreferences
+
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
+        await prefs.setString('userName', data['user']['name']);
+        await prefs.setString('userEmail', data['user']['email']);
         prefs.getString('userId');
+        Navigator.pushNamedAndRemoveUntil(
+            context,
+            entryPointScreenRoute,
+            ModalRoute.withName(logInScreenRoute));
       } else {
         final errorMsg = jsonDecode(response.body)['message'] ?? 'Login failed';
         _showSnackBar(context, errorMsg);

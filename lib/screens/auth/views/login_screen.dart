@@ -27,10 +27,6 @@ class _LoginScreenState extends State<LoginScreen> {
   void _loginUser() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isLoggedIn', true);
-    Navigator.pushNamedAndRemoveUntil(
-        context,
-        entryPointScreenRoute,
-        ModalRoute.withName(logInScreenRoute));
   }
   void signInUser() {
     if (_formKey.currentState!.validate()) {
