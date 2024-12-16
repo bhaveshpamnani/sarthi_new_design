@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop/check_auth.dart';
 import 'package:shop/entry_point.dart';
 
@@ -196,9 +197,20 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (context) => const CheckAuthScreen(),
       );
-    case bookmarkScreenRoute:
+    case wishListScreenRoute:
       return MaterialPageRoute(
-        builder: (context) => const BookmarkScreen(),
+        builder: (context) => FutureBuilder<String?>(
+          future: SharedPreferences.getInstance().then((prefs) => prefs.getString('userId')),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
+              return const Center(child: Text('Error loading user data'));
+            } else {
+              return WishListScreen(userId: snapshot.data!);
+            }
+          },
+        ),
       );
     case entryPointScreenRoute:
       return MaterialPageRoute(

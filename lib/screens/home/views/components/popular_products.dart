@@ -91,15 +91,11 @@ class _PopularProductsState extends State<PopularProducts> {
                   price: price, // Pass price as int
                   priceAfetDiscount: priceAfterDiscount, // Pass price after discount as int
                   dicountpercent: discountPercent, // Pass discount percent as int
-                  press: () async {
-                    print(product['_id']); // Verify the ID is printed correctly
+                  press: () async { // Verify the ID is printed correctly
                     final prefs = await SharedPreferences.getInstance();
                     String? userId = await prefs.getString('userId');
-                    print("user id ::::::::::"+userId!);
                    Navigator.push(context, MaterialPageRoute(builder: (_)=> ProductDetailsScreen(productId: product['_id'],userId: userId,)));
-
                   },
-
                 ),
               );
             },

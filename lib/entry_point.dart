@@ -1,8 +1,10 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop/constants.dart';
 import 'package:shop/route/screen_export.dart';
+import 'package:shop/screens/wishlist/views/wishList_screen.dart';
 
 class EntryPoint extends StatefulWidget {
   const EntryPoint({super.key});
@@ -12,16 +14,29 @@ class EntryPoint extends StatefulWidget {
 }
 
 class _EntryPointState extends State<EntryPoint> {
-  final List _pages = const [
-    HomeScreen(),
-    DiscoverScreen(),
-    BookmarkScreen(),
-    // EmptyCartScreen(), // if Cart is empty
-    CartScreen(),
-    ProfileScreen(),
-  ];
+  String? userId = "";
+  List<Widget> _pages = []; // Declare _pages as a list of Widgets
   int _currentIndex = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    _loadUserId();
+  }
+
+  Future<void> _loadUserId() async {
+    var prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userId = prefs.getString('userId') ?? "";
+      _pages = [
+        HomeScreen(),
+        DiscoverScreen(),
+        WishListScreen(userId: userId!),
+        CartScreen(),
+        ProfileScreen(),
+      ];
+    });
+  }
   @override
   Widget build(BuildContext context) {
     SvgPicture svgIcon(String src, {Color? color}) {
@@ -133,10 +148,10 @@ class _EntryPointState extends State<EntryPoint> {
               label: "Discover",
             ),
             BottomNavigationBarItem(
-              icon: svgIcon("assets/icons/Bookmark.svg"),
+              icon: svgIcon("assets/icons/heart.svg"),
               activeIcon:
-                  svgIcon("assets/icons/Bookmark.svg", color: primaryColor),
-              label: "Bookmark",
+                  svgIcon("assets/icons/heart.svg", color: primaryColor),
+              label: "WishList",
             ),
             BottomNavigationBarItem(
               icon: svgIcon("assets/icons/Bag.svg"),

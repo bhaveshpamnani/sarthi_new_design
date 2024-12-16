@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shop/Implemention/bookmark_service.dart';
+import 'package:shop/Implemention/wishlist_service.dart';
 import 'package:shop/components/buy_full_ui_kit.dart';
 import 'package:shop/components/cart_button.dart';
 import 'package:shop/components/custom_modal_bottom_sheet.dart';
@@ -9,6 +9,7 @@ import 'package:shop/constants.dart';
 import 'package:shop/screens/product/views/product_returns_screen.dart';
 
 import 'package:shop/route/screen_export.dart';
+import 'package:shop/screens/wishlist/views/wishList_screen.dart';
 
 import '../../../Implemention/product_service.dart';
 import 'components/notify_me_card.dart';
@@ -37,7 +38,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   List<String> colors = [];
   String? selectedSize;
   String? selectedColor;
-  BookmarkService bookmarkService = BookmarkService();
+  WishListService wishListService = WishListService();
   bool isInBookmark = false;
 
   @override
@@ -50,7 +51,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     print(' PRODUCT ID$productId');
     // Fetch product details based on the ID (if needed)
     _fetchProductDetails(productId);
-    _getBookmarkStatus();
+    _getWishListStatus();
   }
 
   Future<void> _fetchProductDetails(String productID) async {
@@ -73,8 +74,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   // Method to fetch the wishlist status
-  void _getBookmarkStatus() async {
-    final result = await bookmarkService.getBookmarkStatus(
+  void _getWishListStatus() async {
+    final result = await wishListService.getWishListStatus(
         widget.userId, widget.productId);
     if (result["success"]) {
       setState(() {
@@ -86,9 +87,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     }
   }
 
-  Future<void> handleToggleBookmark() async {
+  Future<void> handleToggleWishList() async {
     final result =
-        await bookmarkService.toggleBookmark(widget.userId, widget.productId);
+        await wishListService.toggleWishList(widget.userId, widget.productId);
     if (result["success"]) {
       setState(() {
         isInBookmark = result["isInWishlist"];
@@ -135,7 +136,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       borderRadius: BorderRadius.circular(200),
                     ),
                     child: IconButton(
-                      onPressed: handleToggleBookmark,
+                      onPressed: handleToggleWishList,
                       icon: Icon(
                         CupertinoIcons.heart_fill,
                         color: isInBookmark ? Colors.red : Colors.grey,

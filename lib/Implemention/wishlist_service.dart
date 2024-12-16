@@ -1,11 +1,10 @@
-
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class BookmarkService {
+class WishListService {
   final String baseUrl = "http://localhost:3000/api/wishlist";
 
-  Future<Map<String, dynamic>> toggleBookmark(String userId, String productId) async {
+  Future<Map<String, dynamic>> toggleWishList(String userId, String productId) async {
     final url = '$baseUrl/toggle';
     try {
       final response = await http.post(
@@ -41,7 +40,7 @@ class BookmarkService {
     }
   }
 
-  Future<Map<String, dynamic>> getBookmarkStatus(String userId, String productId) async {
+  Future<Map<String, dynamic>> getWishListStatus(String userId, String productId) async {
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/status/$userId/$productId'),
@@ -68,7 +67,7 @@ class BookmarkService {
     }
   }
 
-  Future<Map<String, dynamic>> getUserBookmark(String userId) async {
+  Future<Map<String, dynamic>> getUserWishList(String userId) async {
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/product-by-user/$userId'),
