@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop/constants.dart';
 import 'package:shop/route/screen_export.dart';
-import 'package:shop/screens/wishlist/views/wishList_screen.dart';
 
 class EntryPoint extends StatefulWidget {
   const EntryPoint({super.key});
@@ -29,11 +28,11 @@ class _EntryPointState extends State<EntryPoint> {
     setState(() {
       userId = prefs.getString('userId') ?? "";
       _pages = [
-        HomeScreen(),
-        DiscoverScreen(),
+        const HomeScreen(),
+        const DiscoverScreen(),
         WishListScreen(userId: userId!),
-        CartScreen(),
-        ProfileScreen(),
+        const CartScreen(),
+        const ProfileScreen(),
       ];
     });
   }

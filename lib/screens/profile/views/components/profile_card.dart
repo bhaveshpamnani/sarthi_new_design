@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shop/components/network_image_with_loader.dart';
 
 import '../../../../constants.dart';
 
@@ -29,7 +27,7 @@ class ProfileCard extends StatelessWidget {
       leading: CircleAvatar(
         radius: 28,
         child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(100)),
+          borderRadius: const BorderRadius.all(Radius.circular(100)),
           child: Image.asset(imageSrc),
         )
       ),

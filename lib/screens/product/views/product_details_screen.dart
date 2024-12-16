@@ -55,18 +55,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   Future<void> _fetchProductDetails(String productID) async {
     try {
       final fetchedProduct = await apiService.getProductById(productID);
-      if (fetchedProduct != null) {
-        setState(() {
-          product = fetchedProduct;
-          _imageList =
-              List<String>.from(product!['images']?.map((e) => e['url']) ?? []);
-          sizes = List<String>.from(product!['sizes'] ?? []);
-          colors = List<String>.from(product!['colors'] ?? []);
-        });
-      } else {
-        print('No product found for ID: $productID');
-      }
-    } catch (e) {
+      setState(() {
+        product = fetchedProduct;
+        _imageList =
+            List<String>.from(product!['images']?.map((e) => e['url']) ?? []);
+        sizes = List<String>.from(product!['sizes'] ?? []);
+        colors = List<String>.from(product!['colors'] ?? []);
+      });
+        } catch (e) {
       print('Error fetching product details: $e');
     }
   }

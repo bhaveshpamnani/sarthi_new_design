@@ -45,7 +45,7 @@ class CartButton extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "₹${price}",
+                            "₹$price",
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall!

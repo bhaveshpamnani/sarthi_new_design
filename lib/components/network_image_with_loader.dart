@@ -22,7 +22,7 @@ class NetworkImageWithLoader extends StatelessWidget {
     return ClipRRect(
 
       borderRadius: BorderRadius.all(Radius.circular(radius)),
-      child: Container(
+      child: SizedBox(
         height: double.infinity,
         width: double.infinity,
         child: CachedNetworkImage(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop/components/product/product_card.dart';
-import 'package:shop/models/product_model.dart';
 import 'package:shop/route/screen_export.dart';
 
 import '../../../../Implemention/product_service.dart';
@@ -93,7 +92,7 @@ class _PopularProductsState extends State<PopularProducts> {
                   dicountpercent: discountPercent, // Pass discount percent as int
                   press: () async { // Verify the ID is printed correctly
                     final prefs = await SharedPreferences.getInstance();
-                    String? userId = await prefs.getString('userId');
+                    String? userId = prefs.getString('userId');
                    Navigator.push(context, MaterialPageRoute(builder: (_)=> ProductDetailsScreen(productId: product['_id'],userId: userId,)));
                   },
                 ),

@@ -1,39 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shop/route/screen_export.dart';
 
+import '../../../../Implemention/category_service.dart';
 import '../../../../constants.dart';
 
-// For preview
-class CategoryModel {
-  final String name;
-  final String? svgSrc, route;
-
-  CategoryModel({
-    required this.name,
-    this.svgSrc,
-    this.route,
-  });
-}
-
-List<CategoryModel> demoCategories = [
-  CategoryModel(name: "All Categories"),
-  CategoryModel(
-      name: "On Sale",
-      svgSrc: "assets/icons/Sale.svg",
-      route: onSaleScreenRoute),
-  CategoryModel(name: "Man's", svgSrc: "assets/icons/Man.svg"),
-  CategoryModel(name: "Woman’s", svgSrc: "assets/icons/Woman.svg"),
-  CategoryModel(
-      name: "Kids", svgSrc: "assets/icons/Child.svg", route: kidsScreenRoute),
-];
-// End For Preview
-
-class Categories extends StatelessWidget {
+class Categories extends StatefulWidget {
   const Categories({
     super.key,
   });
 
+  @override
+  State<Categories> createState() => _CategoriesState();
+}
+
+class _CategoriesState extends State<Categories> {
+  final CategoryService _categoryService = CategoryService();
+  List<dynamic> categories = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCategories();
+  }
+
+  Future<void> fetchCategories() async {
+    try {
+      final fetchedCategories = await _categoryService.fetchCategories();
+      setState(() {
+        categories = fetchedCategories;
+      });
+    } catch (error) {
+      print("Error fetching categories: $error");
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -41,20 +40,20 @@ class Categories extends StatelessWidget {
       child: Row(
         children: [
           ...List.generate(
-            demoCategories.length,
+            categories.length,
             (index) => Padding(
               padding: EdgeInsets.only(
                   left: index == 0 ? defaultPadding : defaultPadding / 2,
                   right:
-                      index == demoCategories.length - 1 ? defaultPadding : 0),
+                      index == categories.length - 1 ? defaultPadding : 0),
               child: CategoryBtn(
-                category: demoCategories[index].name,
-                svgSrc: demoCategories[index].svgSrc,
-                isActive: index == 0,
+                category: categories[index]['name'],
+                // svgSrc: demoCategories[index].svgSrc,
+                // isActive: ,
                 press: () {
-                  if (demoCategories[index].route != null) {
-                    Navigator.pushNamed(context, demoCategories[index].route!);
-                  }
+                  // if (demoCategories[index].route != null) {
+                  //   Navigator.pushNamed(context, demoCategories[index].route!);
+                  // }
                 },
               ),
             ),
@@ -70,13 +69,11 @@ class CategoryBtn extends StatelessWidget {
     super.key,
     required this.category,
     this.svgSrc,
-    required this.isActive,
     required this.press,
   });
 
   final String category;
   final String? svgSrc;
-  final bool isActive;
   final VoidCallback press;
 
   @override
@@ -88,11 +85,9 @@ class CategoryBtn extends StatelessWidget {
         height: 36,
         padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
         decoration: BoxDecoration(
-          color: isActive ? primaryColor : Colors.transparent,
+          color: Colors.transparent,
           border: Border.all(
-              color: isActive
-                  ? Colors.transparent
-                  : Theme.of(context).dividerColor),
+              color: Theme.of(context).dividerColor),
           borderRadius: const BorderRadius.all(Radius.circular(30)),
         ),
         child: Row(
@@ -102,7 +97,7 @@ class CategoryBtn extends StatelessWidget {
                 svgSrc!,
                 height: 20,
                 colorFilter: ColorFilter.mode(
-                  isActive ? Colors.white : Theme.of(context).iconTheme.color!,
+                  Theme.of(context).iconTheme.color!,
                   BlendMode.srcIn,
                 ),
               ),
@@ -112,9 +107,7 @@ class CategoryBtn extends StatelessWidget {
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
-                color: isActive
-                    ? Colors.white
-                    : Theme.of(context).textTheme.bodyLarge!.color,
+                color:Theme.of(context).textTheme.bodyLarge!.color,
               ),
             ),
           ],

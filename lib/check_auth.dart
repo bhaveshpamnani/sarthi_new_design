@@ -33,7 +33,7 @@ class _CheckAuthScreenState extends State<CheckAuthScreen> {
   @override
   Widget build(BuildContext context) {
     if(!_onboardingComplete){
-      return OnBordingScreen();
+      return const OnBordingScreen();
     }else if(_isLoggedIn){
       return const EntryPoint();
     }else {

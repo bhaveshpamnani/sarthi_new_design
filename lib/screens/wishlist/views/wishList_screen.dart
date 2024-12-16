@@ -6,7 +6,7 @@ import '../../../components/product/product_card.dart';
 import '../../product/views/product_details_screen.dart';
 
 class WishListScreen extends StatefulWidget {
-  WishListScreen({super.key, required this.userId});
+  const WishListScreen({super.key, required this.userId});
   final String userId;
 
   @override
@@ -54,7 +54,7 @@ class _WishListScreenState extends State<WishListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : _wishlistItems.isEmpty
           ? Center(
         child: Text(
@@ -66,9 +66,9 @@ class _WishListScreenState extends State<WishListScreen> {
           : CustomScrollView(
         slivers: [
           SliverPadding(
-            padding:  EdgeInsets.all(16.0),
+            padding:  const EdgeInsets.all(16.0),
             sliver: SliverGrid(
-              gridDelegate:  SliverGridDelegateWithMaxCrossAxisExtent(
+              gridDelegate:  const SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 200,
                 mainAxisSpacing: 16,
                 crossAxisSpacing: 16,
@@ -79,7 +79,7 @@ class _WishListScreenState extends State<WishListScreen> {
                   // Guard against invalid indices
                   if (index >= _wishlistItems.length) {
                     print("Index out of range: $index");
-                    return SizedBox.shrink();
+                    return const SizedBox.shrink();
                   }
 
                   final wishList = _wishlistItems[index];
@@ -113,7 +113,7 @@ class _WishListScreenState extends State<WishListScreen> {
                         );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text("User not authenticated")),
+                          const SnackBar(content: Text("User not authenticated")),
                         );
                       }
                     },
